@@ -1,7 +1,5 @@
 import React from "react";
 
-export default function HomePage() {
-  return <div>
-    
-  </div>;
+export default function WorkoutPage() {
+  return <div></div>;
 }

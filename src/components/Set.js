@@ -2,23 +2,43 @@ import React, { useState, useRef } from "react";
 
 export default function Set({ reps, weight, onChange = () => {}, onDelete = () => {} }) {
   const [isEditing, setIsEditing] = useState(false);
+
+  const handleClick = (element) => {
+    element.focus();
+  };
+
   return (
-    <div>
+    <div className="cursor-pointer flex items-center">
       {isEditing ? (
-        <div className="border cursor-pointer" onClick={() => setIsEditing(false)}>
+        <div className="cursor-pointer" tabIndex={0}>
+          <div className="relative">
+            <div className="absolute flex gap-2" style={{ left: "calc(100% - 100px)", top: "-30px" }}>
+              <button
+                className="bg-zinc-100 rounded p-0.5"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsEditing(false);
+                  onDelete();
+                }}
+              >
+                Delete
+              </button>
+
+              <button
+                className="bg-zinc-100 rounded p-0.5"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsEditing(false);
+                }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
           <RepInput number={reps} onChange={onChange} /> x <WeightInput defaultNumber={weight} onChange={onChange} /> lbs
-          <button
-            className="bg-white ml-3"
-            onClick={(e) => {
-              e.stopPropagation();
-              onDelete();
-            }}
-          >
-            delete
-          </button>
         </div>
       ) : (
-        <div onClick={() => setIsEditing(true)}>
+        <div onClick={() => setIsEditing(true)} className="flex items-center justify-center h-[2.5rem]">
           <span className="text-lg">
             {reps} x {weight} lbs
           </span>
@@ -51,7 +71,7 @@ const RepInput = ({ number, onChange = () => {} }) => {
       onBlur={handleFocusOut}
       onClick={(e) => e.stopPropagation()}
       onChange={(e) => onChange("reps", e.target.value)}
-      className="w-10 h-10 drop-shadow-md border text-xl text-center text-black"
+      className="w-10 h-[2rem] text-xl text-center text-black"
     ></input>
   );
 };
@@ -79,7 +99,7 @@ const WeightInput = ({ defaultNumber, onChange = () => {} }) => {
       onBlur={handleFocusOut}
       onClick={(e) => e.stopPropagation()}
       onChange={(e) => onChange("weight", e.target.value)}
-      className="w-16 h-10 drop-shadow-md border text-xl text-center text-black"
+      className="w-16 h-[2rem] text-xl text-center text-black"
     ></input>
   );
 };

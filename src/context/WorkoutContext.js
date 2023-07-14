@@ -63,7 +63,7 @@ const workoutReducer = (state, action) => {
       return {
         ...state,
         workouts: { ...workouts, [workoutId]: { ...workouts[workoutId], exerciseIds: [...workouts[workoutId].exerciseIds, newId] } },
-        exercises: { ...exercises, [newId]: { id: newId, name: "Fuckery", sets: [{ reps: "0", weight: "0" }] } },
+        exercises: { ...exercises, [newId]: { id: newId, name: "Exercise", sets: [{ reps: "0", weight: "0" }] } },
       };
     case "delete-exercise":
       const delExerciseIds = workouts[workoutId].exerciseIds.filter((id) => id !== delId);
@@ -76,9 +76,10 @@ const workoutReducer = (state, action) => {
     case "edit-text":
       //Text value type
       if (workoutId) {
-        return { ...state, workouts: { ...workouts, [workoutId]: { name: text } } };
+        return { ...state, workouts: { ...workouts, [workoutId]: { ...workouts[workoutId], name: text } } };
       } else if (exerciseId) {
-        return { ...state, workouts: { ...workouts, [exerciseId]: { name: text } } };
+        return { ...state, workouts: { ...workouts, [exerciseId]: { ...workouts[exerciseId], name: text } } };
       }
+      console.log("STATE", { ...state, workouts: { ...workouts, [exerciseId]: { ...workouts[exerciseId], name: text } } });
   }
 };
